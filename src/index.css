@@ -1,0 +1,271 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Immipass Vibrant Design System */
+    --background: 40 33% 96%; /* Warm cream #F9F7F2 */
+    --foreground: 0 0% 10%; /* Near black */
+
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 10%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 10%;
+
+    --primary: 0 0% 10%; /* Black for buttons */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 175 65% 55%; /* Vibrant teal/cyan accent */
+    --secondary-foreground: 0 0% 10%;
+
+    --muted: 40 20% 92%;
+    --muted-foreground: 0 0% 40%;
+
+    --accent: 50 100% 55%; /* Bright yellow accent */
+    --accent-foreground: 0 0% 10%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 40 20% 88%;
+    --input: 40 20% 88%;
+    --ring: 175 65% 50%;
+
+    --radius: 0.5rem;
+
+    /* Custom vibrant colors */
+    --teal: 175 65% 55%;
+    --teal-light: 175 55% 70%;
+    --teal-dark: 175 60% 40%;
+    --cream: 40 33% 96%;
+    --cream-dark: 40 25% 90%;
+    --yellow: 50 100% 55%;
+    --yellow-light: 50 100% 70%;
+    --blue: 210 85% 55%;
+    --blue-light: 210 80% 70%;
+    --blue-dark: 210 85% 40%;
+    --green: 155 70% 45%;
+    --green-light: 155 60% 65%;
+
+    /* Sidebar */
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 0 0% 8%;
+    --foreground: 40 33% 96%;
+    --card: 0 0% 12%;
+    --card-foreground: 40 33% 96%;
+    --popover: 0 0% 12%;
+    --popover-foreground: 40 33% 96%;
+    --primary: 40 33% 96%;
+    --primary-foreground: 0 0% 10%;
+    --secondary: 175 55% 40%;
+    --secondary-foreground: 40 33% 96%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 40 20% 70%;
+    --accent: 50 100% 50%;
+    --accent-foreground: 0 0% 10%;
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 175 55% 50%;
+    --teal: 175 55% 50%;
+    --teal-light: 175 50% 40%;
+    --cream: 0 0% 8%;
+    --yellow: 50 100% 50%;
+    --blue: 210 80% 50%;
+    --green: 155 60% 40%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif;
+  }
+}
+
+@layer components {
+  /* Hexagon clip path for images */
+  .clip-hexagon {
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+  }
+
+  .clip-hexagon-vertical {
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  }
+
+  /* Rounded hexagon shape */
+  .rounded-hex {
+    border-radius: 20% / 10%;
+  }
+
+  /* Zigzag pattern background */
+  .zigzag-pattern {
+    background-image: repeating-linear-gradient(
+      135deg,
+      transparent,
+      transparent 10px,
+      hsl(var(--teal-light) / 0.3) 10px,
+      hsl(var(--teal-light) / 0.3) 11px
+    );
+  }
+
+  /* Gradient backgrounds */
+  .bg-gradient-teal {
+    background: linear-gradient(180deg, hsl(var(--teal-light)) 0%, hsl(var(--teal)) 100%);
+  }
+
+  .bg-gradient-dark {
+    background: linear-gradient(180deg, hsl(0 0% 15%) 0%, hsl(0 0% 8%) 100%);
+  }
+
+  /* Text gradient */
+  .text-gradient-teal {
+    background: linear-gradient(90deg, hsl(var(--teal)) 0%, hsl(var(--teal-dark)) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Scroll animation utilities */
+  .animate-fade-up {
+    animation: fadeUp 0.6s ease-out forwards;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out forwards;
+  }
+
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* Marquee animation for partners */
+  @keyframes marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-marquee {
+    animation: marquee 30s linear infinite;
+  }
+
+  /* Hero image shape - organic blob */
+  .hero-image-shape {
+    border-radius: 40% 60% 60% 40% / 60% 40% 60% 40%;
+  }
+
+  /* Hero image clip path - angled rectangle */
+  .clip-hero-image {
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 85% 100%, 0 100%);
+  }
+
+  /* Smooth hover lift effect */
+  .hover-lift {
+    @apply transition-transform duration-300;
+  }
+  .hover-lift:hover {
+    @apply -translate-y-1;
+  }
+
+  /* Glass effect */
+  .glass {
+    @apply bg-card/80 backdrop-blur-md;
+  }
+
+  /* Text shimmer effect */
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+
+  .text-shimmer {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--foreground)) 0%,
+      hsl(var(--teal)) 50%,
+      hsl(var(--foreground)) 100%
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 3s linear infinite;
+  }
+
+  /* Pulse ring animation */
+  @keyframes pulse-ring {
+    0% {
+      transform: scale(0.8);
+      opacity: 0.8;
+    }
+    100% {
+      transform: scale(1.4);
+      opacity: 0;
+    }
+  }
+
+  .pulse-ring::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: inherit;
+    border: 2px solid hsl(var(--teal));
+    animation: pulse-ring 2s ease-out infinite;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
