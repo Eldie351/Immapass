@@ -78,11 +78,10 @@ const BecomeMember = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className={`relative rounded-2xl p-8 ${
-                  plan.popular
+                className={`relative rounded-2xl p-8 ${plan.popular
                     ? "bg-foreground text-primary-foreground border-2 border-teal"
                     : "bg-card border border-border"
-                }`}
+                  }`}
               >
                 {plan.popular && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2">
@@ -119,7 +118,7 @@ const BecomeMember = () => {
                   className="w-full group"
                   asChild
                 >
-                  <Link to="#">
+                  <Link to="/become-a-member">
                     {plan.cta}
                     <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                   </Link>

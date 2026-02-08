@@ -1,0 +1,123 @@
+﻿
+> vite_react_shadcn_ts@0.0.0 build
+> vite build
+
+[36mvite v5.4.19 [32mbuilding for production...[36m[39m
+transforming...
+node.exe : 
+Browserslist: 
+browsers data 
+(caniuse-lite) is 8 
+months old. Please 
+run:
+At line:1 char:1
++ & "C:\Program Files
+\nodejs/node.exe" 
+"C:\Program 
+Files\nodejs/node_mo 
+...
++ ~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~
+    + CategoryInfo   
+           : NotSpe  
+  cified: (Browser   
+ slist: b...ld. P    
+lease run::Strin    
+g) [], RemoteExc    
+eption
+    + FullyQualified 
+   ErrorId : Native  
+  CommandError
+ 
+  npx update-browsers
+list-db@latest
+  Why you should do 
+it regularly: https:/
+/github.com/browsersl
+ist/update-db#readme
+[32mÔ£ô[39m 1773 modules transformed.
+[31mx[39m Build 
+failed in 4.78s
+[31merror during 
+build:
+[31m[commonjs--resol
+ver] Failed to 
+resolve entry for 
+package "@supabase/po
+stgrest-js". The 
+package may have 
+incorrect 
+main/module/exports 
+specified in its 
+package.json.[31m
+    at 
+packageEntryFailure (
+file:///C:/Users/EUPH
+-DG-PC/Immapass/node_
+modules/vite/dist/nod
+e/chunks/dep-C6uTJdX2
+.js:46638:15)
+    at 
+resolvePackageEntry (
+file:///C:/Users/EUPH
+-DG-PC/Immapass/node_
+modules/vite/dist/nod
+e/chunks/dep-C6uTJdX2
+.js:46635:3)
+    at 
+tryNodeResolve (file:
+///C:/Users/EUPH-DG-P
+C/Immapass/node_modul
+es/vite/dist/node/chu
+nks/dep-C6uTJdX2.js:4
+6451:16)
+    at 
+Object.resolveId (fil
+e:///C:/Users/EUPH-DG
+-PC/Immapass/node_mod
+ules/vite/dist/node/c
+hunks/dep-C6uTJdX2.js
+:46201:19)
+    at file:///C:/Use
+rs/EUPH-DG-PC/Immapas
+s/node_modules/rollup
+/dist/es/shared/node-
+entry.js:20730:40
+    at async PluginDr
+iver.hookFirstAndGetP
+lugin (file:///C:/Use
+rs/EUPH-DG-PC/Immapas
+s/node_modules/rollup
+/dist/es/shared/node-
+entry.js:20630:28)
+    at async 
+resolveId (file:///C:
+/Users/EUPH-DG-PC/Imm
+apass/node_modules/ro
+llup/dist/es/shared/n
+ode-entry.js:19234:26
+)
+    at async ModuleLo
+ader.resolveId (file:
+///C:/Users/EUPH-DG-P
+C/Immapass/node_modul
+es/rollup/dist/es/sha
+red/node-entry.js:196
+63:15)
+    at async 
+Object.resolveId (fil
+e:///C:/Users/EUPH-DG
+-PC/Immapass/node_mod
+ules/vite/dist/node/c
+hunks/dep-C6uTJdX2.js
+:12834:10)
+    at async PluginDr
+iver.hookFirstAndGetP
+lugin (file:///C:/Use
+rs/EUPH-DG-PC/Immapas
+s/node_modules/rollup
+/dist/es/shared/node-
+entry.js:20630:28)[3
+9m

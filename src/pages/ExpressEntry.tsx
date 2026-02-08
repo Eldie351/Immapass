@@ -1,59 +1,66 @@
 import { Layout } from "@/components/layout/Layout";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { FeaturesSection } from "@/components/sections/FeaturesSection";
-import { StepsSection } from "@/components/sections/StepsSection";
 import { CTASection } from "@/components/sections/CTASection";
 import { Home, Users, FileText, Scale, TrendingUp, Award } from "lucide-react";
 import heroImage from "@/assets/hero-express-entry.jpg";
-import { useLanguage } from "@/contexts/LanguageContext";
 
 const ExpressEntry = () => {
-  const { t } = useLanguage();
-
   const features = [
-    { icon: Home, title: t("express.feature1.title"), description: t("express.feature1.description") },
-    { icon: Users, title: t("express.feature2.title"), description: t("express.feature2.description") },
-    { icon: FileText, title: t("express.feature3.title"), description: t("express.feature3.description") },
-    { icon: Scale, title: t("express.feature4.title"), description: t("express.feature4.description") },
-    { icon: TrendingUp, title: t("express.feature5.title"), description: t("express.feature5.description") },
-    { icon: Award, title: t("express.feature6.title"), description: t("express.feature6.description") },
-  ];
-
-  const steps = [
-    { number: "01", title: t("express.step1.title"), description: t("express.step1.description") },
-    { number: "02", title: t("express.step2.title"), description: t("express.step2.description") },
-    { number: "03", title: t("express.step3.title"), description: t("express.step3.description") },
-    { number: "04", title: t("express.step4.title"), description: t("express.step4.description") },
+    {
+      icon: Home,
+      title: "Path to PR",
+      description: "Understand your eligibility for the three federal programs managed through Express Entry: FSW, FST, and CEC."
+    },
+    {
+      icon: Users,
+      title: "Profile Optimization",
+      description: "Maximize your CRS score. We help you identify areas for improvement like language scores or education assessments."
+    },
+    {
+      icon: FileText,
+      title: "Document Review",
+      description: "Ensure your supporting documents are accurate and complete before you receive an Invitation to Apply (ITA)."
+    },
+    {
+      icon: Scale,
+      title: "Legal Representation",
+      description: "Have a licensed immigration lawyer represent you throughout the process, from profile creation to final PR application."
+    },
+    {
+      icon: TrendingUp,
+      title: "Draw Updates",
+      description: "Stay informed about the latest Express Entry draws, CRS cut-off scores, and category-based rounds of invitations."
+    },
+    {
+      icon: Award,
+      title: "PNP Options",
+      description: "Explore Provincial Nominee Programs that align with your Express Entry profile to boost your chances of selection."
+    }
   ];
 
   return (
     <Layout>
       <HeroSection
-        subtitle={t("express.hero.subtitle")}
-        title={t("express.hero.title")}
-        description={t("express.hero.description")}
-        primaryCta={{ label: t("express.hero.cta.primary"), href: "/become-a-member" }}
+        title="Your Fastest Path to Permanent Residence"
+        subtitle="EXPRESS ENTRY"
+        description="Navigate the Express Entry system with confidence. From profile creation to Invitation to Apply, Immipass is with you."
+        primaryCta={{ label: "Check Eligibility", href: "/become-a-member" }}
         image={heroImage}
         imageAlt="Happy family in their new home"
-      />
-
-      <StepsSection
-        title={t("express.steps.title")}
-        subtitle={t("express.steps.subtitle")}
-        steps={steps}
-      />
-
-      <FeaturesSection
-        title={t("express.features.title")}
-        subtitle={t("express.features.subtitle")}
-        features={features}
         variant="teal"
       />
 
+      <FeaturesSection
+        title="Maximize Your Success"
+        subtitle="EXPRESS ENTRY BENEFITS"
+        features={features}
+      />
+
       <CTASection
-        title={t("express.cta.title")}
-        description={t("express.cta.description")}
-        primaryCta={{ label: t("express.cta.primary"), href: "/become-a-member" }}
+        title="Ready to make Canada your home?"
+        description="Create your profile today and see how Immipass can help you achieve Permanent Residence."
+        primaryCta={{ label: "Get Started", href: "/become-a-member" }}
         variant="dark"
       />
     </Layout>
