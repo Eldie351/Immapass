@@ -4,63 +4,66 @@ import { FeaturesSection } from "@/components/sections/FeaturesSection";
 import { CTASection } from "@/components/sections/CTASection";
 import { BookOpen, Briefcase, GraduationCap, CheckCircle2, Handshake, Zap } from "lucide-react";
 import heroImage from "@/assets/hero-newcomers.jpg";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Newcomers = () => {
+    const { t } = useLanguage();
+
     const features = [
         {
             icon: GraduationCap,
-            title: "Study Permits",
-            description: "Immipass gives you more clarity and confidence to apply for your Canadian study permit with real legal support at every step. We help you avoid the risks of doing it alone, at a fraction of the cost of traditional legal services."
+            title: t("newcomers.feature1.title"),
+            description: t("newcomers.feature1.description")
         },
         {
             icon: Briefcase,
-            title: "Work Permits",
-            description: "Immipass helps you apply for your Canadian work permit with added clarity, confidence, and legal support from start to finish. Whether you're starting a new job, switching employers, or restoring your status."
+            title: t("newcomers.feature2.title"),
+            description: t("newcomers.feature2.description")
         },
         {
             icon: BookOpen,
-            title: "Permanent Residence",
-            description: "Immipass supports your journey to permanent residence with step-by-step legal guidance—so you don't have to figure it out alone. From matching your NOC code to maximizing your CRS points."
+            title: t("newcomers.feature3.title"),
+            description: t("newcomers.feature3.description")
         },
         {
             icon: Zap,
-            title: "Rewards and Offers",
-            description: "Immipass Members get special offers on banking, mobile, internet, and more to help you in your new home—from some of the country's largest and most trusted providers."
+            title: t("newcomers.feature4.title"),
+            description: t("newcomers.feature4.description")
         },
         {
             icon: CheckCircle2,
-            title: "Personalized Checklists",
-            description: "Every application is reviewed by licensed immigration lawyers to help catch issues before you submit—so you don't have to figure it out on your own."
+            title: t("newcomers.feature5.title"),
+            description: t("newcomers.feature5.description")
         },
         {
             icon: Handshake,
-            title: "Immigration Support",
-            description: "We help support every aspect of your new life with offers for tax filing, credit building, auto leases, loans, and additional settlement services."
+            title: t("newcomers.feature6.title"),
+            description: t("newcomers.feature6.description")
         }
     ];
 
     return (
         <Layout>
             <HeroSection
-                title="Trusted guidance for your immigration journey"
-                subtitle="NEWCOMERS"
-                description="We're here every step of the way. Get guidance and tools for visa applications, study permits, work permits, and more—all with personal support."
-                primaryCta={{ label: "Get Started", href: "/become-a-member" }}
+                title={t("newcomers.hero.title")}
+                subtitle={t("newcomers.hero.subtitle")}
+                description={t("newcomers.hero.description")}
+                primaryCta={{ label: t("newcomers.hero.cta.primary"), href: "/become-a-member" }}
                 image={heroImage}
                 imageAlt="Newcomers arriving in Canada"
                 variant="teal"
             />
 
             <FeaturesSection
-                title="We're here every step of the way"
-                subtitle="OUR SERVICES"
+                title={t("newcomers.features.title")}
+                subtitle={t("newcomers.features.subtitle")}
                 features={features}
             />
 
             <CTASection
-                title="Exclusive benefits for Immipass Members"
-                description="Get guidance and expertise from expert immigration lawyers to help prepare your strongest application."
-                primaryCta={{ label: "Become a Member", href: "/become-a-member" }}
+                title={t("newcomers.cta.title")}
+                description={t("newcomers.cta.description")}
+                primaryCta={{ label: t("newcomers.cta.primary"), href: "/become-a-member" }}
                 variant="dark"
             />
         </Layout>

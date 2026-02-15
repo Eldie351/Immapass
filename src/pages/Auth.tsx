@@ -7,56 +7,130 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Eye, EyeOff, ArrowRight } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { useToast } from "@/hooks/use-toast";
 import { z } from "zod";
+import { supabase } from "@/integrations/supabase/client";
 
-const emailSchema = z.string().email("Please enter a valid email address");
-const passwordSchema = z.string().min(6, "Password must be at least 6 characters");
+const emailSchema = z.string().email("auth.validation.email");
+const passwordSchema = z.string().min(6, "auth.validation.password");
 
 const Auth = () => {
   const [searchParams] = useSearchParams();
-  const initialMode = searchParams.get("mode") === "signup" ? "signup" : "login";
-  
-  const [mode, setMode] = useState<"login" | "signup">(initialMode);
+  const initialMode = searchParams.get("mode") === "signup"
+    ? "signup"
+    : searchParams.get("mode") === "reset"
+      ? "updatePassword"
+      : "login";
+
+  const [mode, setMode] = useState<"login" | "signup" | "forgot" | "updatePassword">(initialMode);
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
-  
-  const { signIn, signUp, user } = useAuth();
+
+  const { signIn, signUp, resetPassword, user } = useAuth();
   const { toast } = useToast();
+  const { t } = useLanguage();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user) {
+    if (user && mode !== "updatePassword") {
       navigate("/");
     }
-  }, [user, navigate]);
+  }, [user, navigate, mode]);
 
   const validateForm = () => {
     const newErrors: { email?: string; password?: string } = {};
-    
-    const emailResult = emailSchema.safeParse(email);
-    if (!emailResult.success) {
-      newErrors.email = emailResult.error.errors[0].message;
+
+    if (mode !== "updatePassword") {
+      const emailResult = emailSchema.safeParse(email);
+      if (!emailResult.success) {
+        newErrors.email = t(emailResult.error.errors[0].message);
+      }
     }
-    
+
     const passwordResult = passwordSchema.safeParse(password);
     if (!passwordResult.success) {
-      newErrors.password = passwordResult.error.errors[0].message;
+      newErrors.password = t(passwordResult.error.errors[0].message);
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
+  const handleForgotPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) {
+      setErrors({ email: t("auth.validation.email_required") });
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const { error } = await resetPassword(email);
+      if (error) {
+        toast({
+          title: t("auth.toast.reset_failed"),
+          description: error.message,
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: t("auth.toast.reset_sent.title"),
+          description: t("auth.toast.reset_sent.description"),
+        });
+        setMode("login");
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleUpdatePassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const passwordResult = passwordSchema.safeParse(password);
+    if (!passwordResult.success) {
+      setErrors({ password: t(passwordResult.error.errors[0].message) });
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const { error } = await supabase.auth.updateUser({ password });
+      if (error) {
+        toast({
+          title: t("auth.toast.update_failed"),
+          description: error.message,
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: t("auth.toast.update_success.title"),
+          description: t("auth.toast.update_success.description"),
+        });
+        navigate("/");
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
+    if (mode === "forgot") {
+      return handleForgotPassword(e);
+    }
+
+    if (mode === "updatePassword") {
+      return handleUpdatePassword(e);
+    }
+
     if (!validateForm()) return;
-    
+
     setIsLoading(true);
 
     try {
@@ -64,16 +138,16 @@ const Auth = () => {
         const { error } = await signIn(email, password);
         if (error) {
           toast({
-            title: "Login failed",
-            description: error.message === "Invalid login credentials" 
-              ? "Invalid email or password. Please try again."
+            title: t("auth.toast.login_failed"),
+            description: error.message === "Invalid login credentials"
+              ? t("auth.error.invalid_login")
               : error.message,
             variant: "destructive",
           });
         } else {
           toast({
-            title: "Welcome back!",
-            description: "You have successfully logged in.",
+            title: t("auth.toast.login_welcome.title"),
+            description: t("auth.toast.login_welcome.description"),
           });
         }
       } else {
@@ -81,21 +155,21 @@ const Auth = () => {
         if (error) {
           if (error.message.includes("already registered")) {
             toast({
-              title: "Account exists",
-              description: "This email is already registered. Please log in instead.",
+              title: t("auth.toast.account_exists"),
+              description: t("auth.error.email_registered"),
               variant: "destructive",
             });
           } else {
             toast({
-              title: "Signup failed",
+              title: t("auth.toast.signup_failed"),
               description: error.message,
               variant: "destructive",
             });
           }
         } else {
           toast({
-            title: "Account created!",
-            description: "Welcome to Immipass. Your account has been created.",
+            title: t("auth.toast.signup_success.title"),
+            description: t("auth.toast.signup_success.description"),
           });
         }
       }
@@ -115,27 +189,37 @@ const Auth = () => {
             className="max-w-md mx-auto"
           >
             <div className="text-center mb-8">
-              <motion.h1 
+              <motion.h1
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
                 className="text-3xl md:text-4xl font-serif mb-2"
               >
-                {mode === "login" ? "Welcome back" : "Create your account"}
+                {mode === "login"
+                  ? t("auth.login.title")
+                  : mode === "signup"
+                    ? t("auth.signup.title")
+                    : mode === "forgot"
+                      ? t("auth.forgot.title")
+                      : t("auth.update.title")}
               </motion.h1>
-              <motion.p 
+              <motion.p
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
                 className="text-muted-foreground"
               >
-                {mode === "login" 
-                  ? "Log in to your Immipass account" 
-                  : "Join Immipass and start your immigration journey"}
+                {mode === "login"
+                  ? t("auth.login.description")
+                  : mode === "signup"
+                    ? t("auth.signup.description")
+                    : mode === "forgot"
+                      ? t("auth.forgot.description")
+                      : t("auth.update.description")}
               </motion.p>
             </div>
 
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
@@ -143,16 +227,16 @@ const Auth = () => {
             >
               <form onSubmit={handleSubmit} className="space-y-4">
                 {mode === "signup" && (
-                  <motion.div 
+                  <motion.div
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: "auto" }}
                     className="space-y-2"
                   >
-                    <Label htmlFor="fullName">Full Name</Label>
+                    <Label htmlFor="fullName">{t("auth.fullName")}</Label>
                     <Input
                       id="fullName"
                       type="text"
-                      placeholder="Your full name"
+                      placeholder={t("auth.fullNamePlaceholder")}
                       value={fullName}
                       onChange={(e) => setFullName(e.target.value)}
                       className="h-12"
@@ -160,75 +244,86 @@ const Auth = () => {
                   </motion.div>
                 )}
 
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="you@example.com"
-                    value={email}
-                    onChange={(e) => {
-                      setEmail(e.target.value);
-                      if (errors.email) setErrors({ ...errors, email: undefined });
-                    }}
-                    className={`h-12 ${errors.email ? "border-destructive" : ""}`}
-                  />
-                  {errors.email && (
-                    <p className="text-sm text-destructive">{errors.email}</p>
-                  )}
-                </div>
-
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <Label htmlFor="password">Password</Label>
-                    {mode === "login" && (
-                      <Link
-                        to="#"
-                        className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                      >
-                        Forgot password?
-                      </Link>
+                {mode !== "updatePassword" && (
+                  <div className="space-y-2">
+                    <Label htmlFor="email">{t("auth.email")}</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder={t("auth.placeholder.email")}
+                      value={email}
+                      onChange={(e) => {
+                        setEmail(e.target.value);
+                        if (errors.email) setErrors({ ...errors, email: undefined });
+                      }}
+                      className={`h-12 ${errors.email ? "border-destructive" : ""}`}
+                    />
+                    {errors.email && (
+                      <p className="text-sm text-destructive">{errors.email}</p>
                     )}
                   </div>
-                  <div className="relative">
-                    <Input
-                      id="password"
-                      type={showPassword ? "text" : "password"}
-                      placeholder="••••••••"
-                      value={password}
-                      onChange={(e) => {
-                        setPassword(e.target.value);
-                        if (errors.password) setErrors({ ...errors, password: undefined });
-                      }}
-                      className={`h-12 pr-10 ${errors.password ? "border-destructive" : ""}`}
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-                    >
-                      {showPassword ? (
-                        <EyeOff className="w-5 h-5" />
-                      ) : (
-                        <Eye className="w-5 h-5" />
-                      )}
-                    </button>
-                  </div>
-                  {errors.password && (
-                    <p className="text-sm text-destructive">{errors.password}</p>
-                  )}
-                </div>
+                )}
 
-                <Button 
-                  variant="hero" 
-                  className="w-full h-12 group" 
+                {(mode === "login" || mode === "signup" || mode === "updatePassword") && (
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <Label htmlFor="password">{t("auth.password")}</Label>
+                      {mode === "login" && (
+                        <button
+                          type="button"
+                          onClick={() => setMode("forgot")}
+                          className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                        >
+                          {t("auth.forgotPassword")}
+                        </button>
+                      )}
+                    </div>
+                    <div className="relative">
+                      <Input
+                        id="password"
+                        type={showPassword ? "text" : "password"}
+                        placeholder="••••••••"
+                        value={password}
+                        onChange={(e) => {
+                          setPassword(e.target.value);
+                          if (errors.password) setErrors({ ...errors, password: undefined });
+                        }}
+                        className={`h-12 pr-10 ${errors.password ? "border-destructive" : ""}`}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                      >
+                        {showPassword ? (
+                          <EyeOff className="w-5 h-5" />
+                        ) : (
+                          <Eye className="w-5 h-5" />
+                        )}
+                      </button>
+                    </div>
+                    {errors.password && (
+                      <p className="text-sm text-destructive">{errors.password}</p>
+                    )}
+                  </div>
+                )}
+
+                <Button
+                  variant="hero"
+                  className="w-full h-12 group"
                   disabled={isLoading}
                 >
                   {isLoading ? (
-                    "Please wait..."
+                    t("auth.wait")
                   ) : (
                     <>
-                      {mode === "login" ? "Log in" : "Create account"}
+                      {mode === "login"
+                        ? t("auth.logIn")
+                        : mode === "signup"
+                          ? t("auth.createAccount")
+                          : mode === "forgot"
+                            ? t("auth.sendReset")
+                            : t("auth.update.title")}
                       <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
                     </>
                   )}
@@ -237,13 +332,17 @@ const Auth = () => {
 
               <div className="mt-6 text-center">
                 <p className="text-sm text-muted-foreground">
-                  {mode === "login" ? "Don't have an account? " : "Already have an account? "}
+                  {mode === "login"
+                    ? t("auth.noAccount")
+                    : mode === "signup"
+                      ? t("auth.haveAccount")
+                      : t("auth.rememberPassword")}
                   <button
                     type="button"
                     onClick={() => setMode(mode === "login" ? "signup" : "login")}
                     className="text-foreground font-medium hover:underline"
                   >
-                    {mode === "login" ? "Sign up" : "Log in"}
+                    {mode === "login" ? t("auth.signUp") : t("auth.logIn")}
                   </button>
                 </p>
               </div>
@@ -256,3 +355,4 @@ const Auth = () => {
 };
 
 export default Auth;
+

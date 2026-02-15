@@ -4,63 +4,66 @@ import { FeaturesSection } from "@/components/sections/FeaturesSection";
 import { CTASection } from "@/components/sections/CTASection";
 import { FileSearch, AlertCircle, Scale, HelpCircle, CheckSquare, Gavel } from "lucide-react";
 import heroImage from "@/assets/hero-visa-refusal.jpg";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const VisaRefusal = () => {
+    const { t } = useLanguage();
+
     const features = [
         {
             icon: FileSearch,
-            title: "Request Reconsideration",
-            description: "If key details were missed in your original application, or if there was an error in processing, we can help you request a reconsideration to get your application back on track."
+            title: t("refusal.features.reconsideration.title"),
+            description: t("refusal.features.reconsideration.description")
         },
         {
             icon: AlertCircle,
-            title: "Detailed Analysis",
-            description: "Immipass will help you learn why your application was refused. We analyze the refusal letter and officer notes to determine the best strategy."
+            title: t("refusal.features.analysis.title"),
+            description: t("refusal.features.analysis.description")
         },
         {
             icon: CheckSquare,
-            title: "Reapply with Strength",
-            description: "Reapply with a stronger case using our expert guidance. We help you address the specific concerns raised by the immigration officer."
+            title: t("refusal.features.reapply.title"),
+            description: t("refusal.features.reapply.description")
         },
         {
             icon: Scale,
-            title: "Judicial Review",
-            description: "Seek a judicial review to challenge an unfair refusal. Our legal team can represent you in Federal Court if the decision was unreasonable."
+            title: t("refusal.features.review.title"),
+            description: t("refusal.features.review.description")
         },
         {
             icon: Gavel,
-            title: "Expert Legal Support",
-            description: "Immipass is the lawyer-backed digital platform designed to make immigration clearer and more affordable, especially when facing complex refusals."
+            title: t("refusal.features.support.title"),
+            description: t("refusal.features.support.description")
         },
         {
             icon: HelpCircle,
-            title: "Explore Options",
-            description: "Don't give up. We help you explore all available options for approval, ensuring you have the best chance of success moving forward."
+            title: t("refusal.features.options.title"),
+            description: t("refusal.features.options.description")
         }
     ];
 
     return (
         <Layout>
             <HeroSection
-                title="Get Help After a Visa Refusal"
-                subtitle="VISA REFUSAL"
-                description="If your study permit, work permit, or other visa was refused, Immipass will help you learn why, and explore all available options for approval."
-                primaryCta={{ label: "Find Path Forward", href: "/refusal-help" }}
+                title={t("refusal.hero.title")}
+                subtitle={t("refusal.hero.subtitle")}
+                description={t("refusal.hero.description")}
+                primaryCta={{ label: t("refusal.hero.cta"), href: "/refusal-help" }}
                 image={heroImage}
                 imageAlt="Person looking at documents concerned"
                 variant="teal"
             />
 
             <FeaturesSection
-                title="Find the Best Path Forward"
-                subtitle="SOLUTIONS"
+                title={t("refusal.features.title")}
+                subtitle={t("refusal.features.subtitle")}
                 features={features}
             />
 
             <CTASection
-                title="Don't let a refusal stop your journey"
-                description="Get expert legal help to challenge the decision or submit a stronger application."
-                primaryCta={{ label: "Get Help Now", href: "/become-a-member" }}
+                title={t("refusal.cta.title")}
+                description={t("refusal.cta.description")}
+                primaryCta={{ label: t("refusal.cta.primary"), href: "/become-a-member" }}
                 variant="dark"
             />
         </Layout>

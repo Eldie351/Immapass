@@ -4,63 +4,66 @@ import { FeaturesSection } from "@/components/sections/FeaturesSection";
 import { CTASection } from "@/components/sections/CTASection";
 import { Home, Users, FileText, Scale, TrendingUp, Award } from "lucide-react";
 import heroImage from "@/assets/hero-express-entry.jpg";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const ExpressEntry = () => {
+  const { t } = useLanguage();
+
   const features = [
     {
       icon: Home,
-      title: "Path to PR",
-      description: "Understand your eligibility for the three federal programs managed through Express Entry: FSW, FST, and CEC."
+      title: t("express.feature1.title"),
+      description: t("express.feature1.description")
     },
     {
       icon: Users,
-      title: "Profile Optimization",
-      description: "Maximize your CRS score. We help you identify areas for improvement like language scores or education assessments."
+      title: t("express.feature2.title"),
+      description: t("express.feature2.description")
     },
     {
       icon: FileText,
-      title: "Document Review",
-      description: "Ensure your supporting documents are accurate and complete before you receive an Invitation to Apply (ITA)."
+      title: t("express.feature3.title"),
+      description: t("express.feature3.description")
     },
     {
       icon: Scale,
-      title: "Legal Representation",
-      description: "Have a licensed immigration lawyer represent you throughout the process, from profile creation to final PR application."
+      title: t("express.feature4.title"),
+      description: t("express.feature4.description")
     },
     {
       icon: TrendingUp,
-      title: "Draw Updates",
-      description: "Stay informed about the latest Express Entry draws, CRS cut-off scores, and category-based rounds of invitations."
+      title: t("express.feature5.title"),
+      description: t("express.feature5.description")
     },
     {
       icon: Award,
-      title: "PNP Options",
-      description: "Explore Provincial Nominee Programs that align with your Express Entry profile to boost your chances of selection."
+      title: t("express.feature6.title"),
+      description: t("express.feature6.description")
     }
   ];
 
   return (
     <Layout>
       <HeroSection
-        title="Your Fastest Path to Permanent Residence"
-        subtitle="EXPRESS ENTRY"
-        description="Navigate the Express Entry system with confidence. From profile creation to Invitation to Apply, Immipass is with you."
-        primaryCta={{ label: "Check Eligibility", href: "/become-a-member" }}
+        title={t("express.hero.title")}
+        subtitle={t("express.hero.subtitle")}
+        description={t("express.hero.description")}
+        primaryCta={{ label: t("express.hero.cta.primary"), href: "/become-a-member" }}
         image={heroImage}
         imageAlt="Happy family in their new home"
         variant="teal"
       />
 
       <FeaturesSection
-        title="Maximize Your Success"
-        subtitle="EXPRESS ENTRY BENEFITS"
+        title={t("express.features.title")}
+        subtitle={t("express.features.subtitle")}
         features={features}
       />
 
       <CTASection
-        title="Ready to make Canada your home?"
-        description="Create your profile today and see how Immipass can help you achieve Permanent Residence."
-        primaryCta={{ label: "Get Started", href: "/become-a-member" }}
+        title={t("express.cta.title")}
+        description={t("express.cta.description")}
+        primaryCta={{ label: t("express.cta.primary"), href: "/become-a-member" }}
         variant="dark"
       />
     </Layout>

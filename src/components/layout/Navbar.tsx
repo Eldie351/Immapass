@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, ArrowRight, LogOut } from "lucide-react";
+import { Menu, X, ArrowRight, LogOut, Settings as SettingsIcon } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -55,11 +55,10 @@ export function Navbar() {
               <Link
                 key={link.href}
                 to={link.href}
-                className={`px-3 py-2 text-sm font-medium transition-colors hover:text-primary-foreground ${
-                  location.pathname === link.href
+                className={`px-3 py-2 text-sm font-medium transition-colors hover:text-primary-foreground ${location.pathname === link.href
                     ? "text-primary-foreground border-b-2 border-primary-foreground"
                     : "text-primary-foreground/70"
-                }`}
+                  }`}
               >
                 {link.label}
               </Link>
@@ -69,14 +68,14 @@ export function Navbar() {
           {/* CTA Buttons */}
           <div className="hidden md:flex items-center gap-3">
             <LanguageSwitcher />
-            
+
             <Button variant="hero" asChild className="group">
               <Link to="/become-a-member">
                 {t("nav.get_started")}
                 <ArrowRight className="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" />
               </Link>
             </Button>
-            
+
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -85,6 +84,12 @@ export function Navbar() {
                   </button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
+                  <DropdownMenuItem asChild className="cursor-pointer">
+                    <Link to="/settings" className="flex items-center">
+                      <SettingsIcon className="w-4 h-4 mr-2" />
+                      {t("nav.settings")}
+                    </Link>
+                  </DropdownMenuItem>
                   <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer">
                     <LogOut className="w-4 h-4 mr-2" />
                     {t("nav.sign_out")}
@@ -127,11 +132,10 @@ export function Navbar() {
                   key={link.href}
                   to={link.href}
                   onClick={() => setIsOpen(false)}
-                  className={`block px-4 py-2 text-sm font-medium transition-colors rounded-lg ${
-                    location.pathname === link.href
+                  className={`block px-4 py-2 text-sm font-medium transition-colors rounded-lg ${location.pathname === link.href
                       ? "bg-muted text-foreground"
                       : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                  }`}
+                    }`}
                 >
                   {link.label}
                 </Link>
@@ -145,10 +149,18 @@ export function Navbar() {
                   </Link>
                 </Button>
                 {user ? (
-                  <Button variant="ghost" onClick={handleSignOut} className="w-full">
-                    <LogOut className="w-4 h-4 mr-2" />
-                    {t("nav.sign_out")}
-                  </Button>
+                  <>
+                    <Button variant="ghost" asChild className="w-full">
+                      <Link to="/settings" onClick={() => setIsOpen(false)}>
+                        <SettingsIcon className="w-4 h-4 mr-2" />
+                        {t("nav.settings")}
+                      </Link>
+                    </Button>
+                    <Button variant="ghost" onClick={handleSignOut} className="w-full">
+                      <LogOut className="w-4 h-4 mr-2" />
+                      {t("nav.sign_out")}
+                    </Button>
+                  </>
                 ) : (
                   <Button variant="ghost" asChild className="w-full">
                     <Link to="/auth" onClick={() => setIsOpen(false)}>

@@ -4,63 +4,66 @@ import { FeaturesSection } from "@/components/sections/FeaturesSection";
 import { CTASection } from "@/components/sections/CTASection";
 import { Users, Scale, Shield, DollarSign, Award, Handshake } from "lucide-react";
 import heroImage from "@/assets/hero-agents.jpg";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Agents = () => {
+  const { t } = useLanguage();
+
   const features = [
     {
       icon: Scale,
-      title: "Legal Compliance",
-      description: "Ensure all applications meets the latest regulatory requirements. Reduce the risk of refusals with lawyer-backed reviews."
+      title: t("agents.features.compliance.title"),
+      description: t("agents.features.compliance.description")
     },
     {
       icon: Shield,
-      title: "Risk Mitigation",
-      description: "Protect your reputation and your clients with our verifiable, secure platform. Avoid unauthorized representation issues."
+      title: t("agents.features.risk.title"),
+      description: t("agents.features.risk.description")
     },
     {
       icon: Users,
-      title: "Client Management",
-      description: "Manage all your student and client applications in one dashboard. Track status, documents, and communications easily."
+      title: t("agents.features.management.title"),
+      description: t("agents.features.management.description")
     },
     {
       icon: DollarSign,
-      title: "Revenue Growth",
-      description: "Expand your service offerings with admitted legal support. Earn commission on value-added services."
+      title: t("agents.features.revenue.title"),
+      description: t("agents.features.revenue.description")
     },
     {
       icon: Award,
-      title: "Higher Success Rates",
-      description: "Leverage our data-driven approach and legal expertise to improve visa approval rates for your clients."
+      title: t("agents.features.success.title"),
+      description: t("agents.features.success.description")
     },
     {
       icon: Handshake,
-      title: "Trusted Partnership",
-      description: "Partner with a Canadian law firm to offer regulated immigration advice without being a lawyer yourself."
+      title: t("agents.features.partnership.title"),
+      description: t("agents.features.partnership.description")
     }
   ];
 
   return (
     <Layout>
       <HeroSection
-        title="Empower Your Agency with Legal Tech"
-        subtitle="AGENTS"
-        description="The trusted platform for education agents. Ensure compliance, increase success rates, and scale your business with Immipass."
-        primaryCta={{ label: "Partner with Us", href: "/contact" }}
+        title={t("agents.hero.title")}
+        subtitle={t("agents.hero.subtitle")}
+        description={t("agents.hero.description")}
+        primaryCta={{ label: t("agents.hero.cta"), href: "/contact" }}
         image={heroImage}
         imageAlt="Education agent working at computer"
         variant="teal"
       />
 
       <FeaturesSection
-        title="Why Agents Choose Immipass"
-        subtitle="BENEFITS"
+        title={t("agents.features.title")}
+        subtitle={t("agents.features.subtitle")}
         features={features}
       />
 
       <CTASection
-        title="Ready to scale your business?"
-        description="Join the network of top agents using Immipass to deliver better results for their students."
-        primaryCta={{ label: "Contact Us", href: "/contact" }}
+        title={t("agents.cta.title")}
+        description={t("agents.cta.description")}
+        primaryCta={{ label: t("agents.cta.primary"), href: "/contact" }}
         variant="dark"
       />
     </Layout>

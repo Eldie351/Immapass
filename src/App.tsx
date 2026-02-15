@@ -17,6 +17,7 @@ import ExpressEntry from "./pages/ExpressEntry";
 import IEC from "./pages/IEC";
 import BecomeMember from "./pages/BecomeMember";
 import Auth from "./pages/Auth";
+import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -43,6 +44,7 @@ const App = () => (
               <Route path="/become-a-member" element={<BecomeMember />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/login" element={<Auth />} />
+              <Route path="/settings" element={<Settings />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>

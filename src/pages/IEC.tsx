@@ -4,63 +4,66 @@ import { FeaturesSection } from "@/components/sections/FeaturesSection";
 import { CTASection } from "@/components/sections/CTASection";
 import { Globe2, Plane, Wallet, FileCheck, HelpCircle, Map } from "lucide-react";
 import heroImage from "@/assets/hero-iec.jpg";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const IEC = () => {
+    const { t } = useLanguage();
+
     const features = [
         {
             icon: Globe2,
-            title: "Working Holiday",
-            description: "Travel and work in Canada. We help you understand the requirements and apply for your work permit so you can explore the country."
+            title: t("iec.features.holiday.title"),
+            description: t("iec.features.holiday.description")
         },
         {
             icon: Wallet,
-            title: "Affordable",
-            description: "See if you're eligible at no cost, then apply to the IEC pool for just $75. Professional support that fits your travel budget."
+            title: t("iec.features.affordable.title"),
+            description: t("iec.features.affordable.description")
         },
         {
             icon: FileCheck,
-            title: "Clear Guidance",
-            description: "Understand the complex requirements. We monitor your application and provide legal support so you can focus on your move to Canada."
+            title: t("iec.features.guidance.title"),
+            description: t("iec.features.guidance.description")
         },
         {
             icon: Plane,
-            title: "Young Professionals",
-            description: "Gain Canadian professional work experience to better compete in a global economy. We help with employer-specific work permits."
+            title: t("iec.features.young.title"),
+            description: t("iec.features.young.description")
         },
         {
             icon: Map,
-            title: "International Co-op",
-            description: "Get valuable overseas work experience related to your field of study. Valid for students registered at a post-secondary institution."
+            title: t("iec.features.coop.title"),
+            description: t("iec.features.coop.description")
         },
         {
             icon: HelpCircle,
-            title: "Eligibility Check",
-            description: "Not sure if you qualify? Use our tools to check your eligibility for the various IEC pools before you apply."
+            title: t("iec.features.check.title"),
+            description: t("iec.features.check.description")
         }
     ];
 
     return (
         <Layout>
             <HeroSection
-                title="International Experience Canada"
-                subtitle="IEC"
-                description="Travel in Canada on a Working Holiday with IEC. Get clear guidance, understand requirements, and get legal support."
-                primaryCta={{ label: "Check Eligibility", href: "/check-eligibility" }}
+                title={t("iec.hero.title")}
+                subtitle={t("iec.hero.subtitle")}
+                description={t("iec.hero.description")}
+                primaryCta={{ label: t("iec.hero.cta"), href: "/check-eligibility" }}
                 image={heroImage}
                 imageAlt="Traveler with backpack in Canada"
                 variant="teal"
             />
 
             <FeaturesSection
-                title="Work and Travel in Canada"
-                subtitle="PROGRAMS"
+                title={t("iec.features.title")}
+                subtitle={t("iec.features.subtitle")}
                 features={features}
             />
 
             <CTASection
-                title="Start your Canadian adventure"
-                description="Apply to the International Experience Canada pool today with expert support."
-                primaryCta={{ label: "Apply Now", href: "/become-a-member" }}
+                title={t("iec.cta.title")}
+                description={t("iec.cta.description")}
+                primaryCta={{ label: t("iec.cta.primary"), href: "/become-a-member" }}
                 variant="dark"
             />
         </Layout>
